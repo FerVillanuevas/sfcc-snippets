@@ -1,0 +1,23 @@
+{
+  "name": "sfcc-snippets",
+  "version": "1.0.0",
+  "description": "Awesome snippets for sfcc",
+  "keywords": [
+    "snippets",
+    "saleforce",
+    "snippet",
+    "vscode",
+    "sfcc"
+  ],
+  "contributes": {
+    "snippets": [
+      {
+        "language": "javascript",
+        "path": "./snippets/javascrip.json"
+      }
+    ]
+  },
+  "categories": ["Snippets"],
+  "author": "Fermin Villanueva Salas",
+  "license": "ISC"
+}

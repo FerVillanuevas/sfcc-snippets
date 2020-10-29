@@ -1,0 +1,47 @@
+{
+	"Form controller": {
+		"prefix": "form:controller",
+		"body": [
+			"'use strict'\n",
+			"var server = require('server');",
+			"var URLUtils = require('dw/web/URLUtils');",
+			"$LINE_COMMENT Use the following for CSRF protection: add middleware in routes and hidden field on form",
+			"var csrfProtection = require('*/cartridge/scripts/middleware/csrf');\n\n",
+			"server.get('Show',",
+			"\tserver.middleware.https,",
+			"\tcsrfProtection.generateToken, \n\tfunction (req, res, next) {\n",
+				"\t\tvar $form = server.forms.getForm('$name');",
+				"\t\tvar actionUrl = URLUtils.url('${TM_FILENAME/(.*)\\..+$/$1/}-Handler');",
+				"\t\t$form.clear();\n",
+				"\t\tres.render('${template}', {",
+					"\t\t\t$form: $form,",
+					"\t\t\tactionUrl: actionUrl",
+				"\t\t});\n",
+				"\t\tnext();",
+			"\t}\n);\n",
+			"server.post('Handler',",
+			"\tcsrfProtection.validateAjaxRequest,",
+			"\tserver.middleware.https,",
+			"\tfunction (req, res, next) {\n",
+				"\t\t$LINE_COMMENT Do things",
+				"\t\tres.json({",
+					"\t\t\tsuccess: true,",
+					"\t\t\tredirectUrl: URLUtils.url('${TM_FILENAME/(.*)\\..+$/$1/}-Success').toString()",
+				"\t\t});\n",
+				"\t\tnext();\n",
+			"\t}\n);\n",
+			"server.get('Success',",
+				"\tserver.middleware.https,",
+				"\tfunction (req, res, next) {\n",
+					"\t\tres.render('${template}Success', {",
+						"\t\t\tcontinueUrl: URLUtils.url('${TM_FILENAME/(.*)\\..+$/$1/}-Show'),",
+						"\t\t\t$form: server.forms.getForm('$name')",
+					"\t\t});\n",
+
+					"\t\tnext();\n",
+				"\t}\n);\n",
+			"\nmodule.exports = server.exports();"
+		],
+		"description": "Generate default controller for forms.xml"
+	}
+}
