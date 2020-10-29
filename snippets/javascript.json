@@ -53,8 +53,7 @@
 
 					"\t\tnext();\n",
 				"\t}\n);\n",
-			"\nmodule.exports = server.exports();",
-		
+			"\nmodule.exports = server.exports();"
 		],
 		"description": "Generate default controller for forms.xml"
 	}
