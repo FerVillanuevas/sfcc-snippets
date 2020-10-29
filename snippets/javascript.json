@@ -23,11 +23,24 @@
 			"\tcsrfProtection.validateAjaxRequest,",
 			"\tserver.middleware.https,",
 			"\tfunction (req, res, next) {\n",
-				"\t\t$LINE_COMMENT Do things",
-				"\t\tres.json({",
-					"\t\t\tsuccess: true,",
-					"\t\t\tredirectUrl: URLUtils.url('${TM_FILENAME/(.*)\\..+$/$1/}-Success').toString()",
-				"\t\t});\n",
+				"\t\t$LINE_COMMENT Do things\n",
+				"\t\tvar $form = server.forms.getForm('$name');\n",
+
+				"\t\tif($form.valid) {\n",
+					"\t\t\t$LINE_COMMENT Do things",
+					"\t\t\tres.json({",
+						"\t\t\t\tsuccess: true,",
+						"\t\t\t\tredirectUrl: URLUtils.url('Form-Success').toString()",
+					"\t\t\t});\n",
+				"\t\t} else {\n",
+					"\t\t\t$LINE_COMMENT Do things",
+					"\t\t\tres.setStatusCode(500);",
+					"\t\t\tres.json({",
+						"\t\t\t\tsuccess: false,",
+						"\t\t\t\terror: [Resource.msg('error.crossfieldvalidation', '$name', null)]",
+					"\t\t\t});\n",
+				"\t\t}\n",
+		
 				"\t\tnext();\n",
 			"\t}\n);\n",
 			"server.get('Success',",
@@ -40,7 +53,8 @@
 
 					"\t\tnext();\n",
 				"\t}\n);\n",
-			"\nmodule.exports = server.exports();"
+			"\nmodule.exports = server.exports();",
+		
 		],
 		"description": "Generate default controller for forms.xml"
 	}
